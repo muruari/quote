@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quotes</title>
+</head>
+<style>
+        *{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        
+        }
+        #wrapper{
+                padding: 0px 25px;
+                width: 1000px;
+                height: auto;
+        }
+        .quote_author{
+            color: red;
+        }
+        em{
+            font-style: italic;
+            color: black;
+        }
+</style>
+    <body>
+        <a href="/dashboard">Dashboard</a> | <a href="/logout">Logout</a>
+
+
+        <p>Posts by {{ user.name }}</p>
+        <p>Count: {{ count }}</p>
+        <br>
+        <br>
+        {% for quote in my_quotes %}
+            <p class = "quote_author">{{ quote.quote_author }}: <em>{{ quote.quote_text }}</em></p>
+        {% endfor %}
+    </body>
+</html>

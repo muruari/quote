@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quotes</title>
+    <style>
+            *{
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+            }
+            #wrapper{
+                padding: 0px 25px;
+                width: 1000px;
+                height: auto;
+            }
+            #header h1{
+                display: inline-block;
+                margin: 20px 90px 10px 0px;
+           }
+           #header a{
+               font-size: 20px;
+           }
+           #left_section{
+               display: inline-block;
+           }
+           #right_section{
+               display: inline-block;
+               vertical-align: top;
+               margin-left: 250px;
+           }
+           #create_quote p{
+               font-weight: bolder;
+           }
+
+            .quote_text{
+                font-style: italic;
+            }
+            em{
+                font-style: normal;
+                color: red;
+            }
+            .poster{
+                font-weight: bolder;
+                font-size: 12px;
+            }
+            button{
+                font-size: 10px;
+                font-weight: bolder;
+            }
+            .errors{
+                color: red;
+                font-weight: bolder;
+            }
+        </style>
+    </head>
+<body>
+    <div id = "wrapper">
+        
+        <div id="header">
+            <h1>Welcome, {{ request.session.name }}!</h1>
+            <a href="/logout">Logout</a>
+        </div>
+        
+        <br>
+        <div id = "left_section">
+        <h2>Quotable Quotes</h2>
+        {% for quote in all_quotes %}
+            <div class = "quote">
+                <p class = "quote_text"><em>{{ quote.quote_author }}:</em> {{ quote.quote_text }}</p>
+                <p class = "poster">Posted By: <a href="/users/{{ quote.posted_by.id }}">{{ quote.posted_by.name }}</a></p>
+                <a href="/add_quote/{{ quote.id }}"><button>Add to My List</button></a>
+            </div>
+        {% endfor %}
+        </div>
+
+        
+        <div id = "right_section">
+            <h2>Your Favorite Quotes</h2>
+            {% for quote in my_quotes %}
+                <div class = "quote">
+                    <p class = "quote_text"><em>{{ quote.quote_author }}:</em> {{ quote.quote_text }}</p>
+                    <p class = "poster">Posted By: <a href="/users/{{ quote.posted_by.id }}">{{ quote.posted_by.name }}</a></p>
+                    <a href="/remove_quote/{{ quote.id }}"><button>Remove From My List</button></a>
+                </div>
+            {% endfor %}
+    
+        </div>
+        <br>
+        <br>
+        <div id = "create_quote">
+            <p>Contribute a Quote</p>
+            <form action = "/create_quote" method = "POST">
+                {% csrf_token %}
+                <label>Quoted by:</label>
+                <br>
+                <input type="text" name="quote_author">
+                <br>
+                <label>Message:</label>
+                <br>
+                <input type="text" name="quote_text">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if 'quotes' in message.tags %}
+                        <p class = "errors">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

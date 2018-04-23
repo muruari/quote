@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Login and Registration</title>
+</head>
+<style>
+        *{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        
+        }
+        #wrapper{
+                padding: 0px 25px;
+                width: 1000px;
+                height: auto;
+        }
+		.errors{
+			color: red;
+			font-weight: bold;
+		}
+</style>
+<body>
+	<div id="wrapper">
+		<h2>Register:</h2>
+		<form action="/register" method="post">
+		{% csrf_token %}
+			<label>Name:</label>
+			<br>
+			<input type="text" name="name">
+			<br>
+			<label>Alias:</label>
+			<br>
+			<input type="text" name="alias">
+			<br>
+			<label>Email:</label>
+			<br>
+			<input type="text" name="email">
+			<br>
+			<label>Password</label>
+			<br>
+			<input type="password" name="password">
+			<br>
+			<label>Confirm Password</label>
+			<br>
+			<input type="password" name="password_confirmation">
+			<br>
+			<label>Date of Birth:</label>
+			<br>
+			<input type="date" name="date_of_birth">
+			<br>
+			<input type="submit" value="Register">
+
+		</form>
+		{% if messages %}
+			{% for message in messages %}
+				{% if 'register' in message.tags %}
+					<p class = "errors">{{ message }}</p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+		
+		<h2>Login</h2>
+		<form action="/login" method="post">
+		{% csrf_token %}
+			<label>Email:</label>
+			<br>
+			<input type="text" name="email">
+			<br>
+			<label>Password:</label>
+			<br>
+			<input type="password" name="password">
+			<br>
+			<input type="submit" value="Login">
+		</form>
+		
+		{% if messages %}
+			{% for message in messages %}
+				{% if 'login' in message.tags %}
+					<p class = "errors">{{ message }}</p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+		
+	</div>
+</body>
+</html>
